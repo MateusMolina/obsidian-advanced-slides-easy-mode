@@ -75,7 +75,7 @@ export class RevealRenderer {
 		const slidifyOptions = this.yaml.getSlidifyOptions(options);
 
 		const processedMarkdown = this.processor.process(markdown, options);
-		const slides = this.slidify(processedMarkdown, slidifyOptions);
+		const slides = this.removeFirstSlide(this.slidify(processedMarkdown, slidifyOptions));
 
 		const cssPaths = this.getCssPaths(options.css);
 		const remoteCSSPaths = this.getCssPaths(options.remoteCSS);
@@ -167,5 +167,15 @@ export class RevealRenderer {
 			}
 			return css;
 		});
+	}
+
+	private removeFirstSlide(slides: string) {
+		const firstOpeningTagEndIndex = slides.indexOf('>') + 1;
+
+		const firstClosingTagIndex = slides.indexOf('</section>', firstOpeningTagEndIndex);
+
+		const updatedHtmlOutput = slides.slice(0, firstOpeningTagEndIndex) + slides.slice(firstClosingTagIndex + '</section>'.length);
+
+		return updatedHtmlOutput;
 	}
 }
