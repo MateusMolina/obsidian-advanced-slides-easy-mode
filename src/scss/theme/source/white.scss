@@ -26,7 +26,7 @@ $mainFont: 'Source Sans Pro', Helvetica, sans-serif;
 $headingFont: 'Source Sans Pro', Helvetica, sans-serif;
 $headingTextShadow: none;
 $headingLetterSpacing: normal;
-$headingTextTransform: uppercase;
+$headingTextTransform: normal;
 $headingFontWeight: 600;
 $linkColor: #2a76dd;
 $linkColorHover: lighten( $linkColor, 15% );
@@ -40,6 +40,9 @@ $heading4Size: 1.0em;
 // Change text colors against dark slide backgrounds
 @include dark-bg-text-color(#fff);
 
+.reveal .slides {
+	text-align: left;
+}
 
 // Theme template ------------------------------
 @import "../template/theme";
