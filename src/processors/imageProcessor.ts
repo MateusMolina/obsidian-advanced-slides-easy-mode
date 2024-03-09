@@ -94,6 +94,10 @@ export class ImageProcessor {
 			if (height) {
 				comment.addStyle('height', `${height}px`);
 			}
+
+			if (ext.includes('bg')) {
+				comment.addClass('bg');
+			}
 		}
 		return this.parser.commentToString(comment);
 	}
@@ -141,7 +145,6 @@ export class ImageProcessor {
 
 				if (!comment.hasStyle('align-self')) {
 					if (comment.hasAttribute('align')) {
-
 						const align = comment.getAttribute('align');
 
 						switch (align) {
@@ -170,10 +173,13 @@ export class ImageProcessor {
 				if (!comment.hasStyle('object-fit')) {
 					comment.addStyle('object-fit', 'scale-down');
 				}
-				const imageHtml = `<img src="${filePath}" alt="${alt}" ${this.parser.buildAttributes(comment)}>`;
-				result = result + imageHtml;
-			}
 
+				if (comment.hasClass('bg')) result += `# \n <!-- slide bg="${filePath}" -->\n`;
+				else {
+					const imageHtml = `<img src="${filePath}" alt="${alt}" ${this.parser.buildAttributes(comment)}>`;
+					result = result + imageHtml;
+				}
+			}
 		}
 		return result + '\n';
 	}
