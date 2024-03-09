@@ -3,7 +3,6 @@ import { Options } from '../options';
 
 export class FragmentProcessor {
 	private parser: CommentParser;
-	private fragmentCounter = 1;
 	private orderedListRegex = /^\d[),.]/g;
 	private codeBlockRegex = /```[^\n]*(?:\n[^`]*\n)```/g;
 
@@ -12,8 +11,6 @@ export class FragmentProcessor {
 	}
 
 	process(markdown: string, options: Options) {
-		const separatorRegexp = new RegExp(`${options.separator}|${options.verticalSeparator}`, 'gmi');
-
 		// Detect line ranges containing Markdown code blocks so we can ignore them
 		const codeBlockLines = Array.from(markdown.matchAll(this.codeBlockRegex)).map(({ 0: match, index }) => ({
 			from: markdown.substring(0, index).split('\n').length - 1,
@@ -23,12 +20,6 @@ export class FragmentProcessor {
 		const output = markdown
 			.split('\n')
 			.map((line, lineNumber) => {
-				if (`\n${line}\n`.match(separatorRegexp)) {
-					// Reset counter when encountered slide separator
-					this.fragmentCounter = 1;
-					return line;
-				}
-
 				const isCodeblockLine = codeBlockLines.some(({ from, to }) => lineNumber >= from && lineNumber <= to);
 				if (isCodeblockLine) {
 					return line;
@@ -51,12 +42,8 @@ export class FragmentProcessor {
 			line = line.substring(0, line.indexOf('<!--'));
 		}
 
-		if (!comment.hasAttribute('data-fragment-index')) {
-			comment.addAttribute('data-fragment-index', this.fragmentCounter.toString());
-			if (!comment.hasClass('fragment')) {
-				comment.addClass('fragment');
-			}
-			this.fragmentCounter++;
+		if (!comment.hasClass('fragment')) {
+			comment.addClass('fragment');
 		}
 
 		// See here: https://github.com/hakimel/reveal.js/issues/1848. This makes sure that reveals work when dealing with formatting in the list (e.g. bold / italic / code, etc.)

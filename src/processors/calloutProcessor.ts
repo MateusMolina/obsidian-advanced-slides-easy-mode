@@ -43,7 +43,7 @@ export class CalloutProcessor {
 			const title = this.titleFrom(type, titleLine);
 			const color = this.colorFrom(type);
 
-			result.push(`<div class="callout ${color}">`);
+			result.push(`<div class="fragment callout ${color}">`);
 			result.push('<div class="callout-title">');
 			result.push('<div class="callout-icon">');
 			result.push('');
