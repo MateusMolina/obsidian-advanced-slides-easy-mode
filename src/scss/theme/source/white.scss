@@ -44,6 +44,17 @@ $heading4Size: 1.0em;
 	text-align: left;
 }
 
+img {
+	float: right;
+}
+
+ul {
+	display: block !important;
+}
+
+ol {
+	display: block !important;
+}
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------
