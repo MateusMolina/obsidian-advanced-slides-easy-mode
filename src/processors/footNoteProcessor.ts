@@ -65,7 +65,7 @@ export class FootnoteProcessor {
 		}
 
 		let footNotesBlock = '';
-		footNotesBlock += '<div class="footnotes" role="doc-endnotes">\n';
+		footNotesBlock += '<div class="fragment footnotes" role="doc-endnotes">\n';
 		footNotesBlock += '<ol>\n';
 
 		footNotes.forEach((value, key) => {
